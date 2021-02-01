@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.lavandeira.vr_universidade.view;
 
 import com.lavandeira.vr_universidade.VrUniversidadeApplication;
-import java.awt.EventQueue;
+import com.lavandeira.vr_universidade.view.controllers.CoursesViewController;
+import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -18,13 +14,14 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
  */
 public class PrincipalView extends JFrame {
 
-    /**
-     * Creates new form CourseView
-     */
+    private final CoursesViewController coursesController;
+
     public PrincipalView() {
         initComponents();
+        coursesController = new CoursesViewController(coursesTable);
         VrUniversidadeApplication.runSpringServer(new String[]{});
         associateActions();
+        coursesController.fillTable();
     }
 
     /**
@@ -36,30 +33,39 @@ public class PrincipalView extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
+        principalPanel = new javax.swing.JTabbedPane();
+        coursesPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
+        coursesTable = new javax.swing.JTable();
+        insertCourseBtn = new javax.swing.JButton();
+        disciplinesPanel = new javax.swing.JPanel();
+        teachersPanel = new javax.swing.JPanel();
+        studentsPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("VR - Universidade");
-        setAlwaysOnTop(true);
-        setPreferredSize(new java.awt.Dimension(700, 500));
+        setAutoRequestFocus(false);
+        setPreferredSize(new java.awt.Dimension(650, 400));
+        setState(Frame.ICONIFIED);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        principalPanel.setAlignmentX(1.0F);
+        principalPanel.setAlignmentY(1.0F);
+        principalPanel.setPreferredSize(new java.awt.Dimension(600, 350));
+
+        coursesPanel.setPreferredSize(new java.awt.Dimension(464, 500));
+
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(400, 200));
+
+        coursesTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
                 "Código do Curso", "Descrição", "Duração", "Período", "Quantidade de Alunos", "Carga Horária"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.Long.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class, java.lang.Integer.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
@@ -73,53 +79,94 @@ public class PrincipalView extends JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(coursesTable);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        insertCourseBtn.setText("Inserir Curso");
+        insertCourseBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertCourseBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout coursesPanelLayout = new javax.swing.GroupLayout(coursesPanel);
+        coursesPanel.setLayout(coursesPanelLayout);
+        coursesPanelLayout.setHorizontalGroup(
+            coursesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coursesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 688, Short.MAX_VALUE)
+                .addGroup(coursesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, coursesPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(insertCourseBtn)))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        coursesPanelLayout.setVerticalGroup(
+            coursesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(coursesPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(211, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(insertCourseBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Cursos", jPanel1);
+        principalPanel.addTab("Cursos", coursesPanel);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 700, Short.MAX_VALUE)
+        javax.swing.GroupLayout disciplinesPanelLayout = new javax.swing.GroupLayout(disciplinesPanel);
+        disciplinesPanel.setLayout(disciplinesPanelLayout);
+        disciplinesPanelLayout.setHorizontalGroup(
+            disciplinesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 467, Short.MAX_VALUE)
+        disciplinesPanelLayout.setVerticalGroup(
+            disciplinesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Alunos", jPanel2);
+        principalPanel.addTab("Disciplinas", disciplinesPanel);
+
+        javax.swing.GroupLayout teachersPanelLayout = new javax.swing.GroupLayout(teachersPanel);
+        teachersPanel.setLayout(teachersPanelLayout);
+        teachersPanelLayout.setHorizontalGroup(
+            teachersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
+        teachersPanelLayout.setVerticalGroup(
+            teachersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
+        );
+
+        principalPanel.addTab("Professores", teachersPanel);
+
+        javax.swing.GroupLayout studentsPanelLayout = new javax.swing.GroupLayout(studentsPanel);
+        studentsPanel.setLayout(studentsPanelLayout);
+        studentsPanelLayout.setHorizontalGroup(
+            studentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+        );
+        studentsPanelLayout.setVerticalGroup(
+            studentsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 317, Short.MAX_VALUE)
+        );
+
+        principalPanel.addTab("Alunos", studentsPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(principalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(94, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(principalPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("");
@@ -127,29 +174,28 @@ public class PrincipalView extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void insertCourseBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertCourseBtnActionPerformed
+        InsertCourseView insertCourseView = new InsertCourseView(coursesController);
+        insertCourseView.setVisible(true);
+    }//GEN-LAST:event_insertCourseBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel coursesPanel;
+    private javax.swing.JTable coursesTable;
+    private javax.swing.JPanel disciplinesPanel;
+    private javax.swing.JButton insertCourseBtn;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTabbedPane principalPanel;
+    private javax.swing.JPanel studentsPanel;
+    private javax.swing.JPanel teachersPanel;
     // End of variables declaration//GEN-END:variables
 
     private void associateActions() {
-        jTabbedPane1.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent ce) {
-                switch (jTabbedPane1.getSelectedIndex()) {
-                    case 0:
-                        System.out.println("Cursos");
-                        break;
-                    case 1:
-                        System.out.println("Alunos");
-                        break;
-                    default:
-                        System.out.println("Cursos");
-                        break;
-                }
+        principalPanel.addChangeListener((ChangeEvent ce) -> {
+            switch (principalPanel.getSelectedIndex()) {
+                case 0:
+                    coursesController.fillTable();
+                    break;
             }
         });
     }
